@@ -14,10 +14,11 @@ COPY src ./src
 RUN pip install .
 
 # /data holds the SQLite index and the downloaded embedding model (a volume).
-# /corpus is where your documents are mounted read-only.
+# /corpus is where your documents live (mounted from ./corpus; writable so the
+# web page can upload documents).
 RUN useradd --create-home --uid 10001 askdocs \
     && mkdir -p /data /corpus \
-    && chown askdocs:askdocs /data
+    && chown askdocs:askdocs /data /corpus
 
 ENV ASKDOCS_CORPUS_DIR=/corpus \
     ASKDOCS_DB_PATH=/data/askdocs.sqlite \

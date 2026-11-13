@@ -15,6 +15,7 @@ def test_defaults_match_spec() -> None:
     assert s.generator == "extractive"
     assert s.request_timeout == 60
     assert s.max_question_chars == 1000
+    assert s.max_upload_mb == 25
 
 
 def test_env_overrides_every_type() -> None:
@@ -49,6 +50,7 @@ def test_keyword_overrides_win_over_env() -> None:
         ("ASKDOCS_CHUNK_OVERLAP", "200"),
         ("ASKDOCS_CHUNK_WORDS", "0"),
         ("ASKDOCS_CANDIDATE_K", "2"),
+        ("ASKDOCS_MAX_UPLOAD_MB", "0"),
     ],
 )
 def test_invalid_values_name_the_variable(var: str, value: str) -> None:

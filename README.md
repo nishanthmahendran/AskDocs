@@ -77,7 +77,11 @@ Notes:
   Running `ingest` once (as above) is how you pre-download it before starting
   the server. Re-run `ingest` whenever you change `corpus/`, or use
   `POST /ingest`.
-- `corpus/` is mounted read-only, and the container runs as a non-root user.
+- `corpus/` is mounted writable so the web page can upload and delete
+  documents (add `:ro` in `docker-compose.yml` to forbid that). On Linux, if
+  uploads fail with "not writable", the host folder is not writable by the
+  container's user (uid 10001); `chmod a+w corpus` fixes it. The container
+  runs as a non-root user.
 - The port is bound to `127.0.0.1`. To reach it from your phone, change it to
   `"8000:8000"` in `docker-compose.yml` and open `http://<your-PC-IP>:8000`.
   There is no login, so do this only on a network you trust (and allow the
@@ -97,7 +101,9 @@ Exit codes: 0 success, 1 user error (missing folder, empty index, bad input),
 2 internal error.
 
 HTTP API: `POST /ask {"question": "...", "k": 5, "mode": "hybrid"}`,
-`GET /health`, `GET /documents`, `POST /ingest` (409 if one is already running).
+`GET /health`, `GET /documents`, `POST /ingest` (409 if one is already running),
+`PUT /documents/{filename}` (body = the raw file; adds or replaces one
+document), `DELETE /documents/{filename}`.
 
 ## Configuration
 
@@ -122,6 +128,7 @@ naming the variable.
 | `ASKDOCS_MODEL_NAME` | `llama3.2:3b` | model name for Ollama / OpenAI |
 | `ASKDOCS_REQUEST_TIMEOUT` | `60` | seconds |
 | `ASKDOCS_MAX_QUESTION_CHARS` | `1000` | longer questions are rejected |
+| `ASKDOCS_MAX_UPLOAD_MB` | `25` | largest file the web page may upload |
 
 ## Architecture
 
@@ -189,12 +196,23 @@ choose it.
 
 ## Adding documents
 
+Either use the web page: open the **Documents** section, choose one or more
+files, and they are saved into the corpus folder and indexed immediately. Each
+document has a Delete button. Or do it by hand:
+
 1. Copy files into `corpus/` (subfolders are fine). Supported: `.pdf`, `.md`,
    `.markdown`, `.txt`. Other files are ignored.
 2. Record each one in `corpus/README.md` (source URL, version, license).
 3. Run `askdocs ingest`. Unchanged files are skipped, changed files are
    re-indexed, deleted files are removed. Scanned pages, corrupt or
    password-protected PDFs and duplicate files produce warnings, not crashes.
+
+Uploads are checked before anything is saved: the file name must be a plain
+name (no folders, no hidden or reserved names) with a supported extension, the
+size must be within `ASKDOCS_MAX_UPLOAD_MB`, and text must be extractable.
+Uploaded files go directly into the corpus folder (no subfolders). There is
+no login: anyone who can open the page can add or delete documents, so keep
+the server on `127.0.0.1` or a network you trust.
 
 In text files, a form-feed character starts a new page.
 
@@ -235,7 +253,9 @@ Chosen abstain threshold and the trade-off at that value: fill in after running 
 
 - No OCR: scanned PDF pages have no extractable text and are skipped with a warning.
 - Tables, multi-column layouts and footnotes extract poorly from PDFs.
-- Single user: no login, no per-user data; one ingest at a time.
+- Single user: no login, no per-user libraries (everyone shares one set of
+  documents, and anyone who can reach the page can upload or delete); one
+  ingest or upload at a time.
 - English only: the stopword list and the default embedding model are English.
 - No stemming: "fees" and "fee" are different words to keyword search.
 - Not legal or financial advice. Answers are only as current as the document

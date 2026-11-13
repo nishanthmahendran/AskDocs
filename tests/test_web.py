@@ -20,6 +20,13 @@ def test_never_uses_innerhtml_or_similar() -> None:
         assert sink not in PAGE
 
 
+def test_has_document_library_controls() -> None:
+    assert 'type="file"' in PAGE
+    assert 'method: "PUT"' in PAGE and 'method: "DELETE"' in PAGE
+    # File names go into the URL encoded, never raw.
+    assert 'encodeURIComponent(file.name)' in PAGE
+
+
 def test_has_disclaimer_and_states() -> None:
     disclaimer = (
         "Answers come only from the loaded documents and may be out of date. "

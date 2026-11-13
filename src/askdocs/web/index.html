@@ -52,6 +52,20 @@
   .source { font-weight: 600; }
   .score { color: var(--muted); font-size: 0.8rem; }
   .snippet { color: var(--muted); font-size: 0.9rem; margin-top: 2px; }
+  details.library { margin-bottom: 16px; }
+  details.library summary { cursor: pointer; font-weight: 600; min-height: 32px; }
+  .library-body { margin-top: 8px; }
+  .doc-row {
+    display: flex; align-items: center; justify-content: space-between; gap: 8px;
+    padding: 6px 0; border-bottom: 1px solid var(--border); overflow-wrap: anywhere;
+  }
+  .doc-row .doc-meta { color: var(--muted); font-size: 0.8rem; }
+  button.small {
+    align-self: auto; padding: 4px 10px; min-height: 32px; font-size: 0.85rem;
+    color: var(--text); background: transparent; border: 1px solid var(--border);
+  }
+  input[type="file"] { max-width: 100%; margin: 8px 0; font: inherit; }
+  .upload-status { font-size: 0.9rem; min-height: 1.4em; overflow-wrap: anywhere; }
   [hidden] { display: none !important; }
 </style>
 </head>
@@ -60,6 +74,16 @@
   <h1>AskDocs</h1>
   <p class="disclaimer">Answers come only from the loaded documents and may be out of date.
     Not legal or financial advice. Confirm with the official source.</p>
+
+  <details class="library" id="library">
+    <summary id="library-summary">Documents</summary>
+    <div class="library-body">
+      <label for="file-input" class="hint">Add documents (.pdf, .md, .markdown, .txt)</label><br>
+      <input id="file-input" type="file" multiple accept=".pdf,.md,.markdown,.txt">
+      <div id="upload-status" class="upload-status" role="status" aria-live="polite"></div>
+      <div id="doc-list"></div>
+    </div>
+  </details>
 
   <form id="ask-form">
     <label for="question" class="hint">Your question (Enter to ask, Shift+Enter for a new line)</label>
@@ -170,6 +194,94 @@
     const question = input.value.trim();
     if (question && !button.disabled) ask(question);
   });
+
+  // ----- document library: list, upload, delete -----------------------------
+
+  const docList = document.getElementById("doc-list");
+  const fileInput = document.getElementById("file-input");
+  const uploadStatus = document.getElementById("upload-status");
+  const librarySummary = document.getElementById("library-summary");
+
+  // Pull a readable message out of an error response from the server.
+  async function errorText(response) {
+    const data = await response.json().catch(() => ({}));
+    return typeof data.detail === "string" ? data.detail : "HTTP " + response.status;
+  }
+
+  async function loadDocuments() {
+    try {
+      const response = await fetch("/documents");
+      if (!response.ok) return;
+      const docs = await response.json();
+      librarySummary.textContent = "Documents (" + docs.length + ")";
+      docList.replaceChildren();
+      if (docs.length === 0) {
+        docList.append(el("div", "hint", "No documents yet. Add some above."));
+        return;
+      }
+      for (const d of docs) {
+        const row = el("div", "doc-row");
+        const label = el("div");
+        label.append(el("div", "", d.doc_name));
+        label.append(el("div", "doc-meta", d.pages + " pages, " + d.chunks + " passages"));
+        const remove = el("button", "small", "Delete");
+        remove.type = "button";
+        remove.addEventListener("click", () => deleteDocument(d.doc_name));
+        row.append(label, remove);
+        docList.append(row);
+      }
+    } catch (err) {
+      /* the server is unreachable; the Ask form shows that error itself */
+    }
+  }
+
+  async function uploadFiles(files) {
+    fileInput.disabled = true;
+    const messages = [];
+    for (const file of files) {
+      uploadStatus.textContent = "Uploading " + file.name + "…";
+      try {
+        const response = await fetch("/documents/" + encodeURIComponent(file.name), {
+          method: "PUT",
+          headers: { "Content-Type": "application/octet-stream" },
+          body: file,
+        });
+        if (response.ok) {
+          const data = await response.json();
+          messages.push(file.name + ": added");
+          for (const w of data.report.warnings) messages.push("  warning: " + w);
+        } else {
+          messages.push(file.name + ": not added (" + (await errorText(response)) + ")");
+        }
+      } catch (err) {
+        messages.push(file.name + ": could not reach the server");
+      }
+    }
+    uploadStatus.textContent = messages.join("\n");
+    uploadStatus.style.whiteSpace = "pre-wrap";
+    fileInput.value = "";
+    fileInput.disabled = false;
+    loadDocuments();
+  }
+
+  async function deleteDocument(name) {
+    if (!window.confirm("Remove " + name + " from the documents?")) return;
+    try {
+      const response = await fetch("/documents/" + encodeURIComponent(name), { method: "DELETE" });
+      uploadStatus.textContent = response.ok
+        ? name + ": removed"
+        : name + ": not removed (" + (await errorText(response)) + ")";
+    } catch (err) {
+      uploadStatus.textContent = name + ": could not reach the server";
+    }
+    loadDocuments();
+  }
+
+  fileInput.addEventListener("change", () => {
+    if (fileInput.files.length) uploadFiles(Array.from(fileInput.files));
+  });
+
+  loadDocuments();
 
   // Enter submits; Shift+Enter inserts a new line.
   input.addEventListener("keydown", (event) => {

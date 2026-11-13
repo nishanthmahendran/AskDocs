@@ -38,6 +38,49 @@ class CorpusNotFoundError(AskDocsError):
     """The configured corpus folder does not exist."""
 
 
+class InvalidDocumentNameError(AskDocsError):
+    """An uploaded file name is not safe to store in the corpus folder."""
+
+
+# Characters Windows forbids in file names (also covers path separators and
+# ":", which NTFS uses for hidden "alternate data streams").
+_FORBIDDEN_NAME_CHARS = set('<>:"/\\|?*')
+_WINDOWS_DEVICE_NAMES = {"con", "prn", "aux", "nul"} | {
+    f"{base}{n}" for base in ("com", "lpt") for n in range(1, 10)
+}
+MAX_NAME_CHARS = 200
+
+
+def safe_doc_name(name: str) -> str:
+    """Return name unchanged if it is a plain, supported file name; else raise.
+
+    Uploads may only create files directly inside the corpus folder, so any
+    path separator, "..", hidden name or unsupported extension is rejected.
+    The rules are deliberately strict so the same name is safe on Windows and Linux.
+    """
+    if not name or len(name) > MAX_NAME_CHARS:
+        raise InvalidDocumentNameError(f"The file name must be 1-{MAX_NAME_CHARS} characters.")
+    if any(c in _FORBIDDEN_NAME_CHARS or ord(c) < 32 for c in name):
+        raise InvalidDocumentNameError(
+            "The file name contains a character that is not allowed "
+            '(slashes, : * ? " < > | or control characters).'
+        )
+    if name.startswith(".") or name.endswith((".", " ")) or name.startswith(" "):
+        raise InvalidDocumentNameError(
+            "The file name cannot start with a dot or a space, or end with a dot or a space."
+        )
+    if name == CORPUS_README:
+        raise InvalidDocumentNameError(f"{CORPUS_README} is reserved; choose another name.")
+    path = Path(name)
+    if path.suffix.lower() not in SUPPORTED_SUFFIXES:
+        raise InvalidDocumentNameError(
+            "Unsupported file type. Use .pdf, .md, .markdown or .txt."
+        )
+    if path.stem.lower() in _WINDOWS_DEVICE_NAMES:
+        raise InvalidDocumentNameError(f"{path.stem!r} is a reserved name on Windows.")
+    return name
+
+
 def file_sha256(data: bytes) -> str:
     """Hex SHA-256 of a file's bytes."""
     return hashlib.sha256(data).hexdigest()

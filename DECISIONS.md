@@ -135,6 +135,37 @@ choice was agreed before implementation.
 - Web page: Enter submits and Shift+Enter adds a new line; no mode selector
   (it was not requested; the API and CLI have `mode`).
 
+## Uploading documents (added after the first version, at your request)
+
+- Added `PUT /documents/{filename}` and `DELETE /documents/{filename}` plus a
+  Documents section in the web page. The request body is the raw file bytes,
+  not a multipart form, because FastAPI's multipart support needs the
+  `python-multipart` package, which is not on the allowed dependency list.
+- Uploads go into the corpus folder itself (one source of truth for CLI, API
+  and evaluation), directly inside it, never in subfolders.
+- File names are validated by `ingest.safe_doc_name`: no path separators, `..`,
+  `:` (NTFS streams), other Windows-forbidden characters, control characters,
+  hidden names, trailing dot or space, `README.md`, Windows device names
+  (`CON`, `NUL`, `COM1`...), more than 200 characters, or unsupported
+  extensions. It is stricter than Linux needs so a file is valid on both.
+- Everything that can be rejected is checked before anything is written:
+  empty body, no extractable text (including unreadable or password-protected
+  PDFs), size, and duplicate content of another indexed document (409). A
+  rejected upload never leaves a file in the corpus folder.
+- Size limit `max_upload_mb` (default 25, `ASKDOCS_MAX_UPLOAD_MB`), enforced by
+  the declared Content-Length and again while streaming the body, so a client
+  that lies about or omits its size cannot make the server buffer more.
+- The file is written to a hidden `.name.part` file and renamed, so an ingest
+  never sees a half-written file. Upload, delete and `POST /ingest` share one
+  lock; a second one returns 409.
+- A write failure (for example a read-only mount) returns 403 with an
+  explanation instead of a 500.
+- `docker-compose.yml` now mounts `corpus/` writable (was `:ro`) so upload
+  works; `:ro` can be added back to forbid it. The image owns `/corpus` for
+  the non-root user.
+- There is still no authentication. Anyone who can reach the page can add or
+  delete documents. That is why the port stays bound to `127.0.0.1` by default.
+
 ## Evaluation
 
 - Each run builds a fresh temporary index, so results never depend on an old

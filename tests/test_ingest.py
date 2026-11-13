@@ -11,7 +11,14 @@ from pypdf import PdfReader, PdfWriter
 import askdocs.ingest as ingest_module
 from askdocs.config import Settings, with_overrides
 from askdocs.embed import HashEmbedder
-from askdocs.ingest import CorpusNotFoundError, ingest_corpus, list_corpus_files, read_pages
+from askdocs.ingest import (
+    CorpusNotFoundError,
+    InvalidDocumentNameError,
+    ingest_corpus,
+    list_corpus_files,
+    read_pages,
+    safe_doc_name,
+)
 from askdocs.store import Store
 from pdf_helper import build_pdf, write_pdf
 
@@ -109,6 +116,38 @@ def test_list_corpus_files_filters_and_sorts(corpus_dir: Path) -> None:
     write_pdf(corpus_dir / "sub" / "d.pdf", [["text"]])
     names = [name for name, _ in list_corpus_files(corpus_dir)]
     assert names == ["a.TXT", "b.md", "sub/c.markdown", "sub/d.pdf"]
+
+
+@pytest.mark.parametrize("name", ["a.md", "My Notes.txt", "report-2026_v2.PDF", "café.markdown"])
+def test_safe_doc_name_accepts_plain_names(name: str) -> None:
+    assert safe_doc_name(name) == name
+
+
+@pytest.mark.parametrize(
+    "name",
+    [
+        "",
+        "../a.md",
+        "sub/a.md",
+        "sub\\a.md",
+        "a:stream.md",
+        ".hidden.md",
+        " lead.md",
+        "trail.md ",
+        "dot.md.",
+        "a.exe",
+        "noextension",
+        "README.md",
+        "CON.txt",
+        "lpt1.md",
+        "bad\x00name.md",
+        "a?.md",
+        "x" * 201 + ".md",
+    ],
+)
+def test_safe_doc_name_rejects_unsafe_names(name: str) -> None:
+    with pytest.raises(InvalidDocumentNameError):
+        safe_doc_name(name)
 
 
 def test_missing_corpus_raises(tmp_path: Path) -> None:

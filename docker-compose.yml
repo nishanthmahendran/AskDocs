@@ -22,9 +22,13 @@ services:
       # Retrieval tuning (defaults shown).
       ASKDOCS_TOP_K: "5"
       ASKDOCS_ABSTAIN_THRESHOLD: "0.35"
+      ASKDOCS_MAX_UPLOAD_MB: "25"
     volumes:
       - askdocs-data:/data          # index + model cache, survives restarts
-      - ./corpus:/corpus:ro         # your documents, read-only
+      # Your documents. Writable so the web page can upload and delete files.
+      # To forbid that, add ":ro" (the Documents section will then show an error
+      # on upload and you add files by hand instead).
+      - ./corpus:/corpus
     restart: unless-stopped
 
   # Optional local LLM. Uncomment, set ASKDOCS_GENERATOR=ollama and

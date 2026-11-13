@@ -53,10 +53,14 @@ class Settings:
     model_name: str = "llama3.2:3b"
     request_timeout: float = 60.0
     max_question_chars: int = 1000
+    # Largest file the web page may upload, in megabytes.
+    max_upload_mb: int = 25
 
     def __post_init__(self) -> None:
         """Check that values make sense together; errors name the env variable."""
-        positive_ints = ("chunk_words", "top_k", "candidate_k", "max_question_chars")
+        positive_ints = (
+            "chunk_words", "top_k", "candidate_k", "max_question_chars", "max_upload_mb",
+        )
         for name in positive_ints:
             if getattr(self, name) < 1:
                 raise ConfigError(f"{env_name(name)} must be at least 1, got {getattr(self, name)}")
