@@ -1,0 +1,7 @@
+# Allow-list: ignore everything, then include only what the image needs.
+*
+!pyproject.toml
+!README.md
+!src/
+**/__pycache__
+**/*.pyc

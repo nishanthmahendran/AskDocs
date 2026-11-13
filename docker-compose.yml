@@ -1,0 +1,41 @@
+services:
+  askdocs:
+    build: .
+    image: askdocs:local
+    ports:
+      # Bound to localhost only, so nothing is reachable from other machines.
+      # To open it from your phone on the same Wi-Fi, change this to "8000:8000".
+      # There is no login, so only do that on a network you trust.
+      - "127.0.0.1:8000:8000"
+    environment:
+      # Embeddings: "fastembed" (real, downloads ~70 MB once into the data
+      # volume) or "hash" (offline, testing only, poor quality).
+      ASKDOCS_EMBEDDER: fastembed
+      ASKDOCS_EMBED_MODEL: BAAI/bge-small-en-v1.5
+      # Answers: "extractive" (no model), "ollama" or "openai" (any
+      # OpenAI-compatible server).
+      ASKDOCS_GENERATOR: extractive
+      # ASKDOCS_OLLAMA_URL: http://ollama:11434
+      # ASKDOCS_OPENAI_BASE_URL: http://host.docker.internal:8080/v1
+      # ASKDOCS_OPENAI_API_KEY: ""
+      # ASKDOCS_MODEL_NAME: llama3.2:3b
+      # Retrieval tuning (defaults shown).
+      ASKDOCS_TOP_K: "5"
+      ASKDOCS_ABSTAIN_THRESHOLD: "0.35"
+    volumes:
+      - askdocs-data:/data          # index + model cache, survives restarts
+      - ./corpus:/corpus:ro         # your documents, read-only
+    restart: unless-stopped
+
+  # Optional local LLM. Uncomment, set ASKDOCS_GENERATOR=ollama and
+  # ASKDOCS_OLLAMA_URL=http://ollama:11434 above, then pull a model with:
+  #   docker compose exec ollama ollama pull llama3.2:3b
+  # ollama:
+  #   image: ollama/ollama:latest
+  #   volumes:
+  #     - ollama-data:/root/.ollama
+  #   restart: unless-stopped
+
+volumes:
+  askdocs-data:
+  # ollama-data:
