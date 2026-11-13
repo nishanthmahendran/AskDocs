@@ -1,0 +1,26 @@
+Northside Community Makerspace: Member Handbook
+
+This is a fictional document written for the AskDocs test suite.
+
+Page 1: Membership and opening hours
+
+Membership costs 35 dollars per month for adults and 15 dollars per month for
+students with a valid school ID. The space is open from 10 a.m. to 9 p.m. on
+weekdays and from 9 a.m. to 5 p.m. on Saturdays and Sundays. The makerspace is
+closed on public holidays. Members may bring one guest per visit; guests must
+sign the visitor log at the front desk.
+Page 2: Laser cutter
+
+Before using the laser cutter, every member must complete a two-hour safety
+training session led by a staff technician. Never leave the laser cutter
+running unattended, even for a moment. Allowed materials include plywood up to
+6 mm thick, acrylic sheet, cardboard and paper. Never cut PVC or vinyl, because
+these materials release chlorine gas that is harmful to people and destroys the
+machine. Keep the lid closed and the air filter switched on during every job.
+Page 3: 3D printers and material fees
+
+The makerspace has four 3D printers. Book a printer through the online
+calendar; each booking may last at most six hours. PLA filament is charged at
+ten cents per gram, and the printer software shows the estimated weight before
+you start. Prints that are left on the printer bed for more than seven days
+are recycled. Clean the print bed after every job.

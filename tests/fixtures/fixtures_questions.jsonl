@@ -1,0 +1,12 @@
+{"id": "f01", "question": "How much is the late charge if I keep a bike longer than the included time?", "answerable": true, "gold_doc": "bikeshare_rules.md", "gold_pages": [1], "expected_phrase": "three dollars applies for every additional 30 minutes"}
+{"id": "f02", "question": "How old do you have to be to rent a bike on your own?", "answerable": true, "gold_doc": "bikeshare_rules.md", "gold_pages": [1], "expected_phrase": "at least 16 years old"}
+{"id": "f03", "question": "What should I do if the dock is full when I return my bike?", "answerable": true, "gold_doc": "bikeshare_rules.md", "gold_pages": [1], "expected_phrase": "tap \"Dock full\""}
+{"id": "f04", "question": "What are the makerspace opening hours on weekends?", "answerable": true, "gold_doc": "makerspace_handbook.txt", "gold_pages": [1], "expected_phrase": "9 a.m. to 5 p.m. on Saturdays and Sundays"}
+{"id": "f05", "question": "Which materials must never be cut on the laser cutter?", "answerable": true, "gold_doc": "makerspace_handbook.txt", "gold_pages": [2], "expected_phrase": "Never cut PVC or vinyl"}
+{"id": "f06", "question": "How much does PLA filament cost for 3D printing?", "answerable": true, "gold_doc": "makerspace_handbook.txt", "gold_pages": [3], "expected_phrase": "ten cents per gram"}
+{"id": "f07", "question": "What is the keyboard shortcut to open the command palette?", "answerable": true, "gold_doc": "release_notes.md", "gold_pages": [1], "expected_phrase": "Ctrl+Shift+P"}
+{"id": "f08", "question": "Which version of Windows is no longer supported?", "answerable": true, "gold_doc": "release_notes.md", "gold_pages": [1], "expected_phrase": "Windows 8.1 is no longer supported"}
+{"id": "f09", "question": "How do I export a note as a PDF?", "answerable": true, "gold_doc": "release_notes.md", "gold_pages": [1], "expected_phrase": "File > Export > PDF"}
+{"id": "f10", "question": "Can I bring my dog to the workshop?", "answerable": false, "gold_doc": null, "gold_pages": null, "expected_phrase": null}
+{"id": "f11", "question": "What is the price of a yearly pass for the bike share?", "answerable": false, "gold_doc": null, "gold_pages": null, "expected_phrase": null}
+{"id": "f12", "question": "Does Lumen Notes support real-time collaboration with other users?", "answerable": false, "gold_doc": null, "gold_pages": null, "expected_phrase": null}

@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AskDocs</title>
+<style>
+  :root {
+    --bg: #f7f7f5; --card: #ffffff; --text: #1d1d1b; --muted: #5f5f5a;
+    --border: #d9d9d4; --accent: #1f5fbf; --accent-text: #ffffff;
+    --warn-bg: #fff4e0; --warn-border: #e0a040; --none-bg: #f1f1ee;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --bg: #161615; --card: #20201f; --text: #ececea; --muted: #a4a4a0;
+      --border: #3a3a38; --accent: #6ea0ff; --accent-text: #0d0d0d;
+      --warn-bg: #3a2a10; --warn-border: #a07020; --none-bg: #2a2a28;
+    }
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0; background: var(--bg); color: var(--text);
+    font: 16px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 720px; margin: 0 auto; padding: 16px; }
+  h1 { font-size: 1.4rem; margin: 8px 0 4px; }
+  .disclaimer { color: var(--muted); font-size: 0.85rem; margin: 0 0 16px; }
+  form { display: flex; flex-direction: column; gap: 8px; }
+  textarea {
+    width: 100%; min-height: 72px; resize: vertical; padding: 10px;
+    font: inherit; color: var(--text); background: var(--card);
+    border: 1px solid var(--border); border-radius: 8px;
+  }
+  button {
+    align-self: flex-end; padding: 10px 20px; font: inherit; font-weight: 600;
+    color: var(--accent-text); background: var(--accent); border: 0; border-radius: 8px;
+    cursor: pointer; min-height: 44px;
+  }
+  button:disabled { opacity: 0.6; cursor: wait; }
+  .hint { color: var(--muted); font-size: 0.8rem; }
+  .card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 12px 14px; margin-top: 16px; overflow-wrap: anywhere;
+  }
+  .none { background: var(--none-bg); border-style: dashed; }
+  .none strong { display: block; margin-bottom: 4px; }
+  .warn { background: var(--warn-bg); border-color: var(--warn-border); font-size: 0.9rem; }
+  .meta { color: var(--muted); font-size: 0.8rem; margin-top: 8px; }
+  h2 { font-size: 1rem; margin: 20px 0 0; }
+  ol { padding-left: 20px; margin: 8px 0 0; }
+  li { margin-bottom: 12px; }
+  .source { font-weight: 600; }
+  .score { color: var(--muted); font-size: 0.8rem; }
+  .snippet { color: var(--muted); font-size: 0.9rem; margin-top: 2px; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <h1>AskDocs</h1>
+  <p class="disclaimer">Answers come only from the loaded documents and may be out of date.
+    Not legal or financial advice. Confirm with the official source.</p>
+
+  <form id="ask-form">
+    <label for="question" class="hint">Your question (Enter to ask, Shift+Enter for a new line)</label>
+    <textarea id="question" name="question" maxlength="1000" required></textarea>
+    <button id="ask-button" type="submit">Ask</button>
+  </form>
+
+  <div id="status" class="card" hidden role="status" aria-live="polite"></div>
+  <div id="answer" class="card" hidden aria-live="polite"></div>
+  <div id="warnings" class="card warn" hidden></div>
+  <section id="sources" hidden>
+    <h2>Sources</h2>
+    <ol id="citations"></ol>
+  </section>
+</main>
+
+<script>
+  "use strict";
+  // All text from the server (answers, document names, snippets) is inserted
+  // with textContent, never innerHTML, so it can never run as HTML or script.
+
+  const form = document.getElementById("ask-form");
+  const input = document.getElementById("question");
+  const button = document.getElementById("ask-button");
+  const statusBox = document.getElementById("status");
+  const answerBox = document.getElementById("answer");
+  const warningsBox = document.getElementById("warnings");
+  const sources = document.getElementById("sources");
+  const citationList = document.getElementById("citations");
+
+  function el(tag, className, text) {
+    const node = document.createElement(tag);
+    if (className) node.className = className;
+    if (text !== undefined) node.textContent = text;
+    return node;
+  }
+
+  function resetResults() {
+    for (const box of [statusBox, answerBox, warningsBox, sources]) box.hidden = true;
+    answerBox.classList.remove("none");
+    answerBox.replaceChildren();
+    warningsBox.replaceChildren();
+    citationList.replaceChildren();
+  }
+
+  function showStatus(text) {
+    statusBox.textContent = text;
+    statusBox.hidden = false;
+  }
+
+  function renderAnswer(data) {
+    if (data.abstained) {
+      answerBox.classList.add("none");
+      answerBox.append(el("strong", "", "No answer found"));
+      answerBox.append(el("div", "", data.answer));
+      if (data.abstain_reason) answerBox.append(el("div", "meta", "Why: " + data.abstain_reason));
+    } else {
+      answerBox.append(el("div", "", data.answer));
+    }
+    answerBox.append(el("div", "meta",
+      "Backend: " + data.backend + " · " + Math.round(data.latency_ms) + " ms"));
+    answerBox.hidden = false;
+
+    if (data.warnings && data.warnings.length) {
+      for (const w of data.warnings) warningsBox.append(el("div", "", w));
+      warningsBox.hidden = false;
+    }
+
+    for (const c of data.citations || []) {
+      const item = el("li");
+      item.append(el("span", "source", c.doc_name + ", page " + c.page));
+      if (typeof c.score === "number") {
+        item.append(el("span", "score", "  similarity " + c.score.toFixed(2)));
+      }
+      item.append(el("div", "snippet", c.snippet));
+      citationList.append(item);
+    }
+    sources.hidden = citationList.children.length === 0;
+  }
+
+  async function ask(question) {
+    resetResults();
+    button.disabled = true;
+    showStatus("Searching the documents…");
+    try {
+      const response = await fetch("/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question: question }),
+      });
+      const data = await response.json().catch(() => ({}));
+      statusBox.hidden = true;
+      if (!response.ok) {
+        const detail = typeof data.detail === "string" ? data.detail : "Request failed.";
+        showStatus("Error (" + response.status + "): " + detail);
+        return;
+      }
+      renderAnswer(data);
+    } catch (err) {
+      showStatus("Could not reach the AskDocs server. Is it running?");
+    } finally {
+      button.disabled = false;
+    }
+  }
+
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const question = input.value.trim();
+    if (question && !button.disabled) ask(question);
+  });
+
+  // Enter submits; Shift+Enter inserts a new line.
+  input.addEventListener("keydown", (event) => {
+    if (event.key === "Enter" && !event.shiftKey && !event.isComposing) {
+      event.preventDefault();
+      form.requestSubmit();
+    }
+  });
+</script>
+</body>
+</html>
