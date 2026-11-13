@@ -1,0 +1,6 @@
+{"id": "ex01", "question": "What is the late charge for keeping a bike too long?", "answerable": true, "gold_doc": "bikeshare_rules.md", "gold_pages": [1], "expected_phrase": "three dollars applies for every additional 30 minutes"}
+{"id": "ex02", "question": "How long is the laser cutter safety training?", "answerable": true, "gold_doc": "makerspace_handbook.txt", "gold_pages": [2], "expected_phrase": "two-hour safety training"}
+{"id": "ex03", "question": "How long can a single 3D printer booking last?", "answerable": true, "gold_doc": "makerspace_handbook.txt", "gold_pages": [3], "expected_phrase": "at most six hours"}
+{"id": "ex04", "question": "What is the new maximum attachment size in Lumen Notes?", "answerable": true, "gold_doc": "release_notes.md", "gold_pages": null, "expected_phrase": "100 MB"}
+{"id": "ex05", "question": "What is the student discount for the bike share?", "answerable": false, "gold_doc": null, "gold_pages": null, "expected_phrase": null}
+{"id": "ex06", "question": "Who founded the makerspace?", "answerable": false, "gold_doc": null, "gold_pages": null, "expected_phrase": null}

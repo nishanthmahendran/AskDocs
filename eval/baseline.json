@@ -1,0 +1,7 @@
+{
+  "_comment": "Minimum values for CI on tests/fixtures with ASKDOCS_EMBEDDER=hash. Measured on 2026-11-10: hybrid hit@5 1.000, MRR 0.944, abstain accuracy 1.000 (12 questions). Gates allow one extra miss. Write separate gates for your real corpus and pass them with --baseline.",
+  "mode": "hybrid",
+  "min_hit_at_5": 0.85,
+  "min_mrr": 0.85,
+  "min_abstain_accuracy": 0.9
+}

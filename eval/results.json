@@ -1,0 +1,754 @@
+{
+  "modes": {
+    "keyword": {
+      "hit@1": 1.0,
+      "hit@3": 1.0,
+      "hit@5": 1.0,
+      "mrr": 1.0,
+      "citation_correctness": 1.0,
+      "abstain_accuracy": 1.0,
+      "abstain_precision": 1.0,
+      "abstain_recall": 1.0,
+      "abstain_false_abstain_rate": 0.0
+    },
+    "vector": {
+      "hit@1": 0.8888888888888888,
+      "hit@3": 1.0,
+      "hit@5": 1.0,
+      "mrr": 0.9444444444444444,
+      "citation_correctness": 0.1111111111111111,
+      "abstain_accuracy": 0.3333333333333333,
+      "abstain_precision": 0.2727272727272727,
+      "abstain_recall": 1.0,
+      "abstain_false_abstain_rate": 0.8888888888888888
+    },
+    "hybrid": {
+      "hit@1": 0.8888888888888888,
+      "hit@3": 1.0,
+      "hit@5": 1.0,
+      "mrr": 0.9444444444444444,
+      "citation_correctness": 1.0,
+      "abstain_accuracy": 1.0,
+      "abstain_precision": 1.0,
+      "abstain_recall": 1.0,
+      "abstain_false_abstain_rate": 0.0
+    }
+  },
+  "threshold_sweep": [
+    {
+      "threshold": 0.0,
+      "keyword": {
+        "accuracy": 0.75,
+        "precision": null,
+        "recall": 0.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.75,
+        "precision": null,
+        "recall": 0.0,
+        "false_abstain_rate": 0.0
+      },
+      "hybrid": {
+        "accuracy": 0.75,
+        "precision": null,
+        "recall": 0.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.05,
+      "keyword": {
+        "accuracy": 0.75,
+        "precision": null,
+        "recall": 0.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.75,
+        "precision": null,
+        "recall": 0.0,
+        "false_abstain_rate": 0.0
+      },
+      "hybrid": {
+        "accuracy": 0.75,
+        "precision": null,
+        "recall": 0.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.1,
+      "keyword": {
+        "accuracy": 0.8333333333333334,
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.6666666666666666,
+        "precision": 0.0,
+        "recall": 0.0,
+        "false_abstain_rate": 0.1111111111111111
+      },
+      "hybrid": {
+        "accuracy": 0.75,
+        "precision": null,
+        "recall": 0.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.15,
+      "keyword": {
+        "accuracy": 0.8333333333333334,
+        "precision": 1.0,
+        "recall": 0.3333333333333333,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.6666666666666666,
+        "precision": 0.0,
+        "recall": 0.0,
+        "false_abstain_rate": 0.1111111111111111
+      },
+      "hybrid": {
+        "accuracy": 0.75,
+        "precision": null,
+        "recall": 0.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.2,
+      "keyword": {
+        "accuracy": 0.9166666666666666,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.75,
+        "precision": 0.5,
+        "recall": 0.6666666666666666,
+        "false_abstain_rate": 0.2222222222222222
+      },
+      "hybrid": {
+        "accuracy": 0.9166666666666666,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.25,
+      "keyword": {
+        "accuracy": 0.9166666666666666,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.5,
+        "precision": 0.2857142857142857,
+        "recall": 0.6666666666666666,
+        "false_abstain_rate": 0.5555555555555556
+      },
+      "hybrid": {
+        "accuracy": 0.9166666666666666,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.3,
+      "keyword": {
+        "accuracy": 0.9166666666666666,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.4166666666666667,
+        "precision": 0.25,
+        "recall": 0.6666666666666666,
+        "false_abstain_rate": 0.6666666666666666
+      },
+      "hybrid": {
+        "accuracy": 0.9166666666666666,
+        "precision": 1.0,
+        "recall": 0.6666666666666666,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.35,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.3333333333333333,
+        "precision": 0.2727272727272727,
+        "recall": 1.0,
+        "false_abstain_rate": 0.8888888888888888
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.4,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.25,
+        "precision": 0.25,
+        "recall": 1.0,
+        "false_abstain_rate": 1.0
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.45,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.25,
+        "precision": 0.25,
+        "recall": 1.0,
+        "false_abstain_rate": 1.0
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.5,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.25,
+        "precision": 0.25,
+        "recall": 1.0,
+        "false_abstain_rate": 1.0
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.55,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.25,
+        "precision": 0.25,
+        "recall": 1.0,
+        "false_abstain_rate": 1.0
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.6,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.25,
+        "precision": 0.25,
+        "recall": 1.0,
+        "false_abstain_rate": 1.0
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.65,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.25,
+        "precision": 0.25,
+        "recall": 1.0,
+        "false_abstain_rate": 1.0
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.7,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.25,
+        "precision": 0.25,
+        "recall": 1.0,
+        "false_abstain_rate": 1.0
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.75,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.25,
+        "precision": 0.25,
+        "recall": 1.0,
+        "false_abstain_rate": 1.0
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.8,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.25,
+        "precision": 0.25,
+        "recall": 1.0,
+        "false_abstain_rate": 1.0
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.85,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.25,
+        "precision": 0.25,
+        "recall": 1.0,
+        "false_abstain_rate": 1.0
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.9,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.25,
+        "precision": 0.25,
+        "recall": 1.0,
+        "false_abstain_rate": 1.0
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 0.95,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.25,
+        "precision": 0.25,
+        "recall": 1.0,
+        "false_abstain_rate": 1.0
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    },
+    {
+      "threshold": 1.0,
+      "keyword": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      },
+      "vector": {
+        "accuracy": 0.25,
+        "precision": 0.25,
+        "recall": 1.0,
+        "false_abstain_rate": 1.0
+      },
+      "hybrid": {
+        "accuracy": 1.0,
+        "precision": 1.0,
+        "recall": 1.0,
+        "false_abstain_rate": 0.0
+      }
+    }
+  ],
+  "best_threshold": {
+    "keyword": {
+      "threshold": 0.35,
+      "accuracy": 1.0
+    },
+    "vector": {
+      "threshold": 0.0,
+      "accuracy": 0.75
+    },
+    "hybrid": {
+      "threshold": 0.35,
+      "accuracy": 1.0
+    }
+  },
+  "per_question_hybrid": [
+    {
+      "id": "f01",
+      "answerable": true,
+      "first_gold_rank": 1,
+      "top_doc": "bikeshare_rules.md",
+      "top_page": 1,
+      "best_cosine": 0.35780638456344604,
+      "abstained": false
+    },
+    {
+      "id": "f02",
+      "answerable": true,
+      "first_gold_rank": 1,
+      "top_doc": "bikeshare_rules.md",
+      "top_page": 1,
+      "best_cosine": 0.2754121422767639,
+      "abstained": false
+    },
+    {
+      "id": "f03",
+      "answerable": true,
+      "first_gold_rank": 1,
+      "top_doc": "bikeshare_rules.md",
+      "top_page": 1,
+      "best_cosine": 0.2195466160774231,
+      "abstained": false
+    },
+    {
+      "id": "f04",
+      "answerable": true,
+      "first_gold_rank": 2,
+      "top_doc": "makerspace_handbook.txt",
+      "top_page": 3,
+      "best_cosine": 0.24949303269386292,
+      "abstained": false
+    },
+    {
+      "id": "f05",
+      "answerable": true,
+      "first_gold_rank": 1,
+      "top_doc": "makerspace_handbook.txt",
+      "top_page": 2,
+      "best_cosine": 0.33324939012527466,
+      "abstained": false
+    },
+    {
+      "id": "f06",
+      "answerable": true,
+      "first_gold_rank": 1,
+      "top_doc": "makerspace_handbook.txt",
+      "top_page": 3,
+      "best_cosine": 0.0721101239323616,
+      "abstained": false
+    },
+    {
+      "id": "f07",
+      "answerable": true,
+      "first_gold_rank": 1,
+      "top_doc": "release_notes.md",
+      "top_page": 1,
+      "best_cosine": 0.3112598657608032,
+      "abstained": false
+    },
+    {
+      "id": "f08",
+      "answerable": true,
+      "first_gold_rank": 1,
+      "top_doc": "release_notes.md",
+      "top_page": 1,
+      "best_cosine": 0.23063068091869354,
+      "abstained": false
+    },
+    {
+      "id": "f09",
+      "answerable": true,
+      "first_gold_rank": 1,
+      "top_doc": "release_notes.md",
+      "top_page": 1,
+      "best_cosine": 0.19088542461395264,
+      "abstained": false
+    },
+    {
+      "id": "f10",
+      "answerable": false,
+      "first_gold_rank": null,
+      "top_doc": "makerspace_handbook.txt",
+      "top_page": 1,
+      "best_cosine": 0.17705407738685608,
+      "abstained": true
+    },
+    {
+      "id": "f11",
+      "answerable": false,
+      "first_gold_rank": null,
+      "top_doc": "bikeshare_rules.md",
+      "top_page": 1,
+      "best_cosine": 0.33988234400749207,
+      "abstained": true
+    },
+    {
+      "id": "f12",
+      "answerable": false,
+      "first_gold_rank": null,
+      "top_doc": "release_notes.md",
+      "top_page": 1,
+      "best_cosine": 0.1817956417798996,
+      "abstained": true
+    }
+  ],
+  "chunk_comparison": [],
+  "ingest_warnings": [],
+  "date": "2026-11-13 08:36",
+  "questions_file": "tests/fixtures/fixtures_questions.jsonl",
+  "settings": {
+    "corpus_dir": "tests/fixtures",
+    "db_path": "temporary database, rebuilt for every evaluation run",
+    "model_cache_dir": "data/models",
+    "chunk_words": "200",
+    "chunk_overlap": "40",
+    "top_k": "5",
+    "candidate_k": "20",
+    "abstain_threshold": "0.35",
+    "embedder": "hash",
+    "embed_model": "BAAI/bge-small-en-v1.5",
+    "generator": "extractive",
+    "ollama_url": "http://localhost:11434",
+    "openai_base_url": "http://localhost:8080/v1",
+    "openai_api_key": "(not set)",
+    "model_name": "llama3.2:3b",
+    "request_timeout": "60.0",
+    "max_question_chars": "1000",
+    "embedder_name": "hash"
+  },
+  "questions": [
+    {
+      "id": "f01",
+      "question": "How much is the late charge if I keep a bike longer than the included time?",
+      "answerable": true,
+      "gold_doc": "bikeshare_rules.md",
+      "gold_pages": [
+        1
+      ],
+      "expected_phrase": "three dollars applies for every additional 30 minutes"
+    },
+    {
+      "id": "f02",
+      "question": "How old do you have to be to rent a bike on your own?",
+      "answerable": true,
+      "gold_doc": "bikeshare_rules.md",
+      "gold_pages": [
+        1
+      ],
+      "expected_phrase": "at least 16 years old"
+    },
+    {
+      "id": "f03",
+      "question": "What should I do if the dock is full when I return my bike?",
+      "answerable": true,
+      "gold_doc": "bikeshare_rules.md",
+      "gold_pages": [
+        1
+      ],
+      "expected_phrase": "tap \"Dock full\""
+    },
+    {
+      "id": "f04",
+      "question": "What are the makerspace opening hours on weekends?",
+      "answerable": true,
+      "gold_doc": "makerspace_handbook.txt",
+      "gold_pages": [
+        1
+      ],
+      "expected_phrase": "9 a.m. to 5 p.m. on Saturdays and Sundays"
+    },
+    {
+      "id": "f05",
+      "question": "Which materials must never be cut on the laser cutter?",
+      "answerable": true,
+      "gold_doc": "makerspace_handbook.txt",
+      "gold_pages": [
+        2
+      ],
+      "expected_phrase": "Never cut PVC or vinyl"
+    },
+    {
+      "id": "f06",
+      "question": "How much does PLA filament cost for 3D printing?",
+      "answerable": true,
+      "gold_doc": "makerspace_handbook.txt",
+      "gold_pages": [
+        3
+      ],
+      "expected_phrase": "ten cents per gram"
+    },
+    {
+      "id": "f07",
+      "question": "What is the keyboard shortcut to open the command palette?",
+      "answerable": true,
+      "gold_doc": "release_notes.md",
+      "gold_pages": [
+        1
+      ],
+      "expected_phrase": "Ctrl+Shift+P"
+    },
+    {
+      "id": "f08",
+      "question": "Which version of Windows is no longer supported?",
+      "answerable": true,
+      "gold_doc": "release_notes.md",
+      "gold_pages": [
+        1
+      ],
+      "expected_phrase": "Windows 8.1 is no longer supported"
+    },
+    {
+      "id": "f09",
+      "question": "How do I export a note as a PDF?",
+      "answerable": true,
+      "gold_doc": "release_notes.md",
+      "gold_pages": [
+        1
+      ],
+      "expected_phrase": "File > Export > PDF"
+    },
+    {
+      "id": "f10",
+      "question": "Can I bring my dog to the workshop?",
+      "answerable": false,
+      "gold_doc": null,
+      "gold_pages": null,
+      "expected_phrase": null
+    },
+    {
+      "id": "f11",
+      "question": "What is the price of a yearly pass for the bike share?",
+      "answerable": false,
+      "gold_doc": null,
+      "gold_pages": null,
+      "expected_phrase": null
+    },
+    {
+      "id": "f12",
+      "question": "Does Lumen Notes support real-time collaboration with other users?",
+      "answerable": false,
+      "gold_doc": null,
+      "gold_pages": null,
+      "expected_phrase": null
+    }
+  ],
+  "gates": {
+    "baseline": {
+      "_comment": "Minimum values for CI on tests/fixtures with ASKDOCS_EMBEDDER=hash. Measured on 2026-11-10: hybrid hit@5 1.000, MRR 0.944, abstain accuracy 1.000 (12 questions). Gates allow one extra miss. Write separate gates for your real corpus and pass them with --baseline.",
+      "mode": "hybrid",
+      "min_hit_at_5": 0.85,
+      "min_mrr": 0.85,
+      "min_abstain_accuracy": 0.9
+    },
+    "failures": []
+  }
+}
