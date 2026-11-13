@@ -1,0 +1,30 @@
+# Local index and model cache
+data/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+models_cache/
+.fastembed_cache/
+
+# Evaluation output written by CI (eval/report.md and eval/results.json are kept)
+eval-output/
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Environments and tool caches
+.venv/
+venv/
+.env
+.pytest_cache/
+.ruff_cache/
+
+# Editors / OS
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

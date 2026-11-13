@@ -1,0 +1,54 @@
+[build-system]
+requires = ["setuptools>=69"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "askdocs"
+version = "0.1.0"
+description = "Local document question answering with citations and abstention."
+readme = "README.md"
+requires-python = ">=3.11"
+# Minimum versions are the ones this project was developed and tested against.
+# numpy is pinned lower (>=2.0) because numpy 2.5 no longer ships Python 3.11 wheels.
+dependencies = [
+    "fastapi>=0.162",
+    "uvicorn>=0.54",
+    "pydantic>=2.14",
+    "httpx>=0.28",
+    "pypdf>=7.0",
+    "numpy>=2.0",
+    "fastembed>=0.9.1",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=9.2",
+    "ruff>=0.17",
+]
+
+[project.scripts]
+askdocs = "askdocs.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+askdocs = ["web/*.html"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+src = ["src", "tests", "eval"]
+
+[tool.ruff.lint]
+# E/W: style, F: pyflakes, I: import order, B: bugbear, UP: modern syntax,
+# SIM: simplifications, RUF: ruff-specific checks.
+select = ["E", "F", "W", "I", "B", "UP", "SIM", "RUF"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+filterwarnings = [
+    # Starlette's TestClient warns that it will move from httpx to "httpx2".
+    # We deliberately keep httpx (an allowed dependency); see DECISIONS.md.
+    "ignore:Using `httpx` with `starlette.testclient` is deprecated",
+]
